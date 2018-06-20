@@ -55,4 +55,9 @@ scp $ssl_prod/*.* $nodes:$ssl_prod
 shift
 done
 fi
+##call out sub-shell
+for sh in `ls |awk '/sh$/ && !/^auto/'`
+do
+source $sh
+done
 
