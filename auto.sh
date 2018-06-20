@@ -1,21 +1,18 @@
-
-
 #!/bin/sh
 #Auto Install kubernetes cluster
 #Deployment CA before download cfssl tools
-KUBE_APISERVER=$1
+mkdir /usr/local/soft
+mkdir -p /opt/kubernetes/ssl_source
+mkdir -p /etc/kubernetes/ssl
+KUBE_APISERVER=https://$1
 soft_location=/usr/local/soft
 bin_location=/usr/bin
 ssl_source=/opt/kubernetes/ssl_source
 ssl_prod=/etc/kubernetes/ssl
 get_name="cfssl_linux-amd64 cfssljson_linux-amd64"
 
-mkdir /usr/local/soft
-mkdir -p /opt/kubernetes/ssl_source
-mkdir -p /etc/kubernetes/ssl
+rm -rf /opt/kubernetes/ssl_source/kubernetes-autoinstall
 
-rm -rf $soft_location/cfssl*
-rm -rf $ssl_source/kubernetes-autoinstall
 
 for url_name in ${get_name[$@]}
 do
@@ -45,7 +42,7 @@ if [ $# -gt 1 ]
 then
 #shift $1,because $1 is apiserver
 shift
-for nodes in "$@"
+for nodes in "${@}"
 do
 #nedd set SSHPASS environment
 #or run sshpass -p password
@@ -56,8 +53,11 @@ shift
 done
 fi
 ##call out sub-shell
-for sh in `ls |awk '/sh$/ && !/^auto/'`
+for s in `ls |awk '/sh$/ && !/^auto/'`
 do
-source $sh
+pwd
+ echo $s
+source ./$s
 done
+
 
