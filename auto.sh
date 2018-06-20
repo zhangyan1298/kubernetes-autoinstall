@@ -1,25 +1,32 @@
+
+
 #!/bin/sh
 #Auto Install kubernetes cluster
 #Deployment CA before download cfssl tools
+KUBE_APISERVER=$1
 soft_location=/usr/local/soft
 bin_location=/usr/bin
 ssl_source=/opt/kubernetes/ssl_source
 ssl_prod=/etc/kubernetes/ssl
+get_name="cfssl_linux-amd64 cfssljson_linux-amd64"
 
 mkdir /usr/local/soft
 mkdir -p /opt/kubernetes/ssl_source
 mkdir -p /etc/kubernetes/ssl
-get_name="cfssl_linux-amd64 cfssljson_linux-amd64"
+
 rm -rf $soft_location/cfssl*
 rm -rf $ssl_source/kubernetes-autoinstall
+
 for url_name in ${get_name[$@]}
 do
 wget  https://pkg.cfssl.org/R1.2/${url_name} -P /usr/local/soft || echo "get ${url_name} fail"
 chmod u+x $soft_location/${url_name}
 mv $soft_location/${url_name}  ${bin_location} || "echo mv cfssl tools fail"
 done
+
 cd ${ssl_source}
-yum -y install git && git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
+yum -y install git sshpass && git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
+
 if [ -d  "kubernetes-autoinstall" ]
 then
 cd kubernetes-autoinstall
@@ -31,3 +38,21 @@ cfssl_linux-amd64 gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -
 mv *.{key,pem,csr}  $ssl_prod
 openssl x509  -noout -text -in /opt/ssl/server.pem
 fi
+
+#COPY bootstrap file to node 
+ssh-keygen  -t rsa -P "" -f ~/.ssh/id_rsa
+if [ $# -gt 1 ]
+then
+#shift $1,because $1 is apiserver
+shift
+for nodes in "$@"
+do
+#nedd set SSHPASS environment
+#or run sshpass -p password
+sshpass -e ssh-copy-id $nodes
+ssh $nodes mkdir -p $ssl_prod
+scp $ssl_prod/*.* $nodes:$ssl_prod
+shift
+done
+fi
+
