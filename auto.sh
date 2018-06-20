@@ -3,7 +3,12 @@
 #Deployment CA before download cfssl tools
 soft_location=/usr/local/soft
 bin_location=/usr/bin
+ssl_source=/opt/kubernetes/ssl_source
+ssl_prod=/etc/kubernetes/ssl
+
 mkdir /usr/local/soft
+mkdir -p /opt/kubernetes/ssl_source
+mkdir -p /etc/kubernetes/ssl
 get_name="cfssl_linux-amd64 cfssljson_linux-amd64"
 for url_name in ${get_name[$@]}
 do
@@ -11,6 +16,7 @@ wget  https://pkg.cfssl.org/R1.2/${url_name} -D /usr/local/soft || echo "get ${u
 chmod u+x $soft_location/${url_name}
 mv $soft_location/${url_name}  ${bin_location} || "echo mv cfssl tools fail"
 done
-
+cd ${ssl_source}
+yum -y install git && git init && git clone 
 
 
