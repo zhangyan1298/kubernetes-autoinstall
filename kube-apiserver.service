@@ -6,17 +6,17 @@ After=network.target
 ExecStart=/usr/local/bin/kube-apiserver \
 --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestricti
 on \
---advertise-address=192.168.8.196 \
---bind-address=192.168.8.196 \
+--advertise-address=192.168.0.4 \
+--bind-address=192.168.0.4 \
 --insecure-bind-address=0.0.0.0 \
 --secure-port=443 \
 --kubelet-https=true \
 --runtime-config=rbac.authorization.k8s.io/v1 \
 --authorization-mode=AlwaysAllow \
 --enable-bootstrap-token-auth \
---service-cluster-ip-range=172.21.0.0/16 \
+--service-cluster-ip-range=10.0.0.0/16 \
 --service-node-port-range=3000-9000 \
---etcd-servers=https://192.168.8.196:2379 \
+--etcd-servers=https://192.168.0.4:2379 \
 --enable-swagger-ui=true \
 --allow-privileged=true \
 --apiserver-count=1 \
