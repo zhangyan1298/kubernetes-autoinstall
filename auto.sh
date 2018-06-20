@@ -55,13 +55,26 @@ shift
 done
 fi
 #install etcd server
-tar xzvf $soft_location/{etcd-v3.2.18-linux-amd64,kubernetes.*,flannel-v0.10.0-linux-amd64}.tar.gz
+tar xzvf $soft_location/etcd-v3.2.18-linux-amd64.tar.gz -C $soft_location
+tar xzvf $soft_location/flannel-v0.10.0-linux-amd64.tar.gz -C $soft_location
+tar xzvf $soft_location/kubernetes-server.tar.gz -C $soft_location
+tar xzvf $soft_location/kubernetes-node*.tar.gz -C $soft_location
 
 cp $soft_location/etcd-v3.2.18-linux-amd64/{etcd,etcdctl} /usr/local/bin/
-cp $soft_location/flannel-v0.10.0-linux-amd64/* /usr/local/bin/
+cp $soft_location/flanneld /usr/local/bin/
 cp $soft_location/kubernetes/node/bin/* /usr/local/bin/
-cp $soft_location/kubernetes/server/bin{kubelet,kubectl,kube-apiserver,kube-controller,kube-scheduler} /usr/local/bin
+cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/bin
 
+systemctl enable etcd
+systemctl enable kube-apiserver
+systemctl enable kube-scheduler
+systemctl enable kube-controller
+systemctl enable kube-proxy
+systemctl enabel flannel
+systemctl enabel docker
+systemctl enabel kubelet
+systemctl start etcd
+systemctl start kube-apiserver
 
 cp *.service /usr/lib/systemd/system/
 
@@ -76,5 +89,4 @@ pwd
 source ./$s
 done
 }
-
 
