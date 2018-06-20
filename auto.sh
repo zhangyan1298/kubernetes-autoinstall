@@ -52,12 +52,27 @@ scp $ssl_prod/*.* $nodes:$ssl_prod
 shift
 done
 fi
+#install etcd server
+tar xzvf $soft_location/{etcd-v3.2.18-linux-amd64,kubernetes.*,flannel-v0.10.0-linux-amd64}.tar.gz
+
+cp etcd-v3.2.18-linux-amd64/{etcd,etcdctl} /usr/local/bin/
+cp flannel-v0.10.0-linux-amd64/* /usr/local/bin/
+cp kubernetes/node/bin/* /usr/local/bin/
+cp kubernetes/server/bin{kubelet,kubectl,kube-apiserver,kube-controller,kube-scheduler} /usr/local/bin
+
+
+cp *.service /usr/lib/systemd/system/
+
+
+
 ##call out sub-shell
+function outcall {
 for s in `ls |awk '/sh$/ && !/^auto/'`
 do
 pwd
  echo $s
 source ./$s
 done
+}
 
 
