@@ -4,6 +4,8 @@
 mkdir /usr/local/soft
 mkdir -p /opt/kubernetes/ssl_source
 mkdir -p /etc/kubernetes/ssl
+mkdir -p /var/lib/etcd
+mkidr -p /var/lib/kubelet
 KUBE_APISERVER=https://$1
 soft_location=/usr/local/soft
 bin_location=/usr/bin
