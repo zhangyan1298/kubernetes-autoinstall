@@ -65,14 +65,15 @@ cp $soft_location/flanneld /usr/local/bin/
 cp $soft_location/kubernetes/node/bin/* /usr/local/bin/
 cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/bin
 
+##enabe
 systemctl enable etcd
 systemctl enable kube-apiserver
 systemctl enable kube-scheduler
 systemctl enable kube-controller-manager
 systemctl enable kube-proxy
-systemctl enabel flanneld
-systemctl enabel docker
-systemctl enabel kubelet
+systemctl enableflanneld
+systemctl enable docker
+systemctl enable kubelet
 systemctl start etcd
 systemctl start kube-apiserver
 
