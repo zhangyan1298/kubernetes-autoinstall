@@ -1,10 +1,12 @@
+
+
 #!/bin/sh
 #Auto Install kubernetes cluster
 #Deployment CA before download cfssl tools
 
 ###start before erase service exits
 systemctl stop etcd
-systemctl stop kube-controller-managet
+systemctl stop kube-controller-manager
 systemctl stop kube-apiserver
 systemctl stop kube-scheduler
 systemctl stop kube-proxy
@@ -12,8 +14,6 @@ systemctl stop kubelet
 systemctl stop flanneld
 systemctl stop docker
 rm -rf /var/lib/etcd
-####swap off###
-swapoff -a
 ###
 ####
 mkdir /usr/local/soft
@@ -120,6 +120,7 @@ done
 outcall
 ########################start flanneld
 systemctl start flanneld
+systemctl start docker
 ########################start kube-controller-manager
 systemctl start kube-controller-manager
 ########################start kube-scheduler
@@ -128,5 +129,4 @@ systemctl start kube-scheduler
 systemctl start kubelet
 ########################start kube-proxy
 systemctl start kube-proxy
-
 
