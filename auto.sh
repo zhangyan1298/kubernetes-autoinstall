@@ -65,7 +65,11 @@ cp $soft_location/flanneld /usr/local/bin/
 cp $soft_location/kubernetes/node/bin/* /usr/local/bin/
 cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/bin
 
-##enabe
+
+#########################
+cp *.service /usr/lib/systemd/system/
+cp token.csv /etc/kubernetes
+#########################enable
 systemctl enable etcd
 systemctl enable kube-apiserver
 systemctl enable kube-scheduler
@@ -76,8 +80,7 @@ systemctl enable docker
 systemctl enable kubelet
 systemctl start etcd
 systemctl start kube-apiserver
-
-cp *.service /usr/lib/systemd/system/
+############################
 
 
 
