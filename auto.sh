@@ -147,3 +147,5 @@ ssh $nodes systemctl start $services
 done
 done
 fi
+#######etcd cluster deployment to node##########
+
