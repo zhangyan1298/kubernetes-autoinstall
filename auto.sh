@@ -81,6 +81,7 @@ scp daemon.json $nodes:/etc/docker
 shift
 for services in "kubelet.service kube-proxy.service flanneld.service docker"
 do
+ssh $nodes systemctl daemon-reload
 ssh $nodes systemctl enable $services
 ssh $nodes systemctl start $services
 done
