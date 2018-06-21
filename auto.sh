@@ -93,4 +93,16 @@ pwd
 source ./$s
 done
 }
+outcall
+########################start flanneld
+systemctl start flanneld
+########################start kube-controller-manager
+systemctl start kube-controller-manager
+########################start kube-scheduler
+systemctl start kube-scheduler
+########################start kubelet
+systemctl start kubelet
+########################start kube-proxy
+systemctl start kube-proxy
+
 
