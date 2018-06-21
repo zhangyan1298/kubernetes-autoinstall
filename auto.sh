@@ -66,8 +66,11 @@ for nodes in "${@}"
 do
 #nedd set SSHPASS environment
 #or run sshpass -p password
+ssh $nodes rm -rf /etc/kubernetes/ssl
 sshpass -e ssh-copy-id $nodes
 ssh $nodes mkdir -p $ssl_prod
+ssh $nodes mkdir /var/lib/kube-proxy
+ssh $nodes mkdir /var/lib/kubelet
 ssh $nodes yum -y install docker
 ssh $nodes "swapoff -a"
 scp $ssl_prod/*.* $nodes:$ssl_prod
