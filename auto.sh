@@ -24,7 +24,7 @@ mv $soft_location/${url_name}  ${bin_location} || "echo mv cfssl tools fail"
 done
 
 cd ${ssl_source}
-yum -y install git sshpass && git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
+yum -y install git sshpass docker && git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
 
 if [ -d  "kubernetes-autoinstall" ]
 then
@@ -71,7 +71,7 @@ systemctl enable kube-apiserver
 systemctl enable kube-scheduler
 systemctl enable kube-controller-manager
 systemctl enable kube-proxy
-systemctl enableflanneld
+systemctl enable flanneld
 systemctl enable docker
 systemctl enable kubelet
 systemctl start etcd
