@@ -12,6 +12,8 @@ systemctl stop kubelet
 systemctl stop flanneld
 systemctl stop docker
 rm -rf /var/lib/etcd
+####swap off###
+swapoff -a
 ###
 ####
 mkdir /usr/local/soft
