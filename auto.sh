@@ -51,7 +51,12 @@ do
 #or run sshpass -p password
 sshpass -e ssh-copy-id $nodes
 ssh $nodes mkdir -p $ssl_prod
+ssh $nodes yum -y install docker
 scp $ssl_prod/*.* $nodes:$ssl_prod
+scp kube-controller-manager.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
+scp $soft_location/flanneld $nodes:/usr/local/bin/
+scp $soft_location/kubernetes/node/bin/* $nodes:/usr/local/bin
+
 shift
 done
 fi
