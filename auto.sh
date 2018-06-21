@@ -14,6 +14,7 @@ systemctl stop kubelet
 systemctl stop flanneld
 systemctl stop docker
 rm -rf /var/lib/etcd
+rm -rf /etc/kubernetes/ssl/*
 ###
 ####
 mkdir /usr/local/soft
@@ -68,13 +69,21 @@ do
 sshpass -e ssh-copy-id $nodes
 ssh $nodes mkdir -p $ssl_prod
 ssh $nodes yum -y install docker
+ssh $nodes "swapoff -a"
 scp $ssl_prod/*.* $nodes:$ssl_prod
-scp kube-controller-manager.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
+scp docker.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
 scp $soft_location/flanneld $nodes:/usr/local/bin/
+scp $soft_location/mk-docker-opts.sh $nodes:/usr/local/bin
+
+
 scp $soft_location/kubernetes/node/bin/* $nodes:/usr/local/bin
 scp daemon.json $nodes:/etc/docker
-
 shift
+for services in "kubelet.service kube-proxy.service flanneld.service docker"
+do
+ssh $nodes systemctl enable $services
+ssh $nodes systemctl start $services
+done
 done
 fi
 #install etcd server
