@@ -4,8 +4,7 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=network.target
 [Service]
 ExecStart=/usr/local/bin/kube-apiserver \
---admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestricti
-on \
+--admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction \
 --advertise-address=192.168.0.4 \
 --bind-address=192.168.0.4 \
 --insecure-bind-address=0.0.0.0 \
