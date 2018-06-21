@@ -6,10 +6,10 @@ Requires=docker.service
 [Service]
 WorkingDirectory=/var/lib/kubelet
 ExecStart=/usr/local/bin/kubelet \
---address=192.168.0.52 \
---hostname-override=192.168.0.52 \
+--address=192.168.0.4 \
+--hostname-override=192.168.0.4 \
 --pod-infra-container-image=registry.cn-hangzhou.aliyuncs.com/google-containers/pause-amd64:3.0 \
---experimental-bootstrap-kubeconfig=/etc/kubernetes/bootstrap.kubeconfig \
+--experimental-bootstrap-kubeconfig=/etc/kubernetes/ssl/bootstrap.kubeconfig \
 --kubeconfig=/etc/kubernetes/kubelet.config \
 --cert-dir=/etc/kubernetes/ssl \
 --hairpin-mode \
