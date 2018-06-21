@@ -4,13 +4,22 @@
 
 ###start before erase service exits
 systemctl stop etcd
+systemctl stop kube-controller-managet
+systemctl stop kube-apiserver
+systemctl stop kube-scheduler
+systemctl stop kube-proxy
+systemctl stop kubelet
+systemctl stop flanneld
+systemctl stop docker
 rm -rf /var/lib/etcd
+###
 ####
 mkdir /usr/local/soft
 mkdir -p /opt/kubernetes/ssl_source
 mkdir -p /etc/kubernetes/ssl
 mkdir -p /var/lib/etcd
 mkidr -p /var/lib/kubelet
+mkdir -p /var/lib/kube-proxy
 KUBE_APISERVER=https://$1
 soft_location=/usr/local/soft
 bin_location=/usr/bin
@@ -81,6 +90,7 @@ cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-con
 cp *.service /usr/lib/systemd/system/
 cp token.csv /etc/kubernetes
 #########################enable
+systemctl daemon-reload
 systemctl enable etcd
 systemctl enable kube-apiserver
 systemctl enable kube-scheduler
