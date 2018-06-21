@@ -72,6 +72,7 @@ scp $ssl_prod/*.* $nodes:$ssl_prod
 scp kube-controller-manager.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
 scp $soft_location/flanneld $nodes:/usr/local/bin/
 scp $soft_location/kubernetes/node/bin/* $nodes:/usr/local/bin
+scp daemon.json $nodes:/etc/docker
 
 shift
 done
@@ -92,6 +93,7 @@ cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-con
 #########################
 cp *.service /usr/lib/systemd/system/
 cp token.csv /etc/kubernetes
+cp daemon.json /etc/docker
 #########################enable
 systemctl daemon-reload
 systemctl enable etcd
