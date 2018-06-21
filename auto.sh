@@ -68,9 +68,9 @@ cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-con
 systemctl enable etcd
 systemctl enable kube-apiserver
 systemctl enable kube-scheduler
-systemctl enable kube-controller
+systemctl enable kube-controller-manager
 systemctl enable kube-proxy
-systemctl enabel flannel
+systemctl enabel flanneld
 systemctl enabel docker
 systemctl enabel kubelet
 systemctl start etcd
