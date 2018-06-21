@@ -1,6 +1,11 @@
 #!/bin/sh
 #Auto Install kubernetes cluster
 #Deployment CA before download cfssl tools
+
+###start before erase service exits
+systemctl stop etcd
+rm -rf /var/lib/etcd
+####
 mkdir /usr/local/soft
 mkdir -p /opt/kubernetes/ssl_source
 mkdir -p /etc/kubernetes/ssl
