@@ -12,7 +12,7 @@ bin_location=/usr/bin
 ssl_source=/opt/kubernetes/ssl_source
 ssl_prod=/etc/kubernetes/ssl
 get_name="cfssl_linux-amd64 cfssljson_linux-amd64"
-etcd_url=${KUBE_APISERVER}
+etcd_url=${KUBE_APISERVER}:2379
 
 rm -rf /opt/kubernetes/ssl_source/kubernetes-autoinstall
 
