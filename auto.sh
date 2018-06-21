@@ -56,40 +56,7 @@ mv *.{key,pem,csr}  $ssl_prod
 openssl x509  -noout -text -in /opt/ssl/server.pem
 fi
 
-#COPY bootstrap file to node 
-ssh-keygen  -t rsa -P "" -f ~/.ssh/id_rsa
-if [ $# -gt 1 ]
-then
-#shift $1,because $1 is apiserver
-shift
-for nodes in "${@}"
-do
-#nedd set SSHPASS environment
-#or run sshpass -p password
-ssh $nodes rm -rf /etc/kubernetes/ssl
-sshpass -e ssh-copy-id $nodes
-ssh $nodes mkdir -p $ssl_prod
-ssh $nodes mkdir /var/lib/kube-proxy
-ssh $nodes mkdir /var/lib/kubelet
-ssh $nodes yum -y install docker
-ssh $nodes "swapoff -a"
-scp $ssl_prod/*.* $nodes:$ssl_prod
-scp docker.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
-scp $soft_location/flanneld $nodes:/usr/local/bin/
-scp $soft_location/mk-docker-opts.sh $nodes:/usr/local/bin
-ssh $nodes sed -i s/192.168.0.4/$nodes/g /usr/lib/systemd/system/kubelet.service 
-ssh $nodes sed -i s/192.168.0.4/$nodes/g /usr/lib/systemd/system/kube-proxy.service 
-scp $soft_location/kubernetes/node/bin/* $nodes:/usr/local/bin
-scp daemon.json $nodes:/etc/docker
-shift
-for services in "kubelet.service kube-proxy.service flanneld.service docker"
-do
-ssh $nodes systemctl daemon-reload
-ssh $nodes systemctl enable $services
-ssh $nodes systemctl start $services
-done
-done
-fi
+
 #install etcd server
 tar xzvf $soft_location/etcd-v3.2.18-linux-amd64.tar.gz -C $soft_location
 tar xzvf $soft_location/flannel-v0.10.0-linux-amd64.tar.gz -C $soft_location
@@ -144,4 +111,39 @@ systemctl start kube-scheduler
 systemctl start kubelet
 ########################start kube-proxy
 systemctl start kube-proxy
+#################################################
 
+#COPY bootstrap file to node 
+ssh-keygen  -t rsa -P "" -f ~/.ssh/id_rsa
+if [ $# -gt 1 ]
+then
+#shift $1,because $1 is apiserver
+shift
+for nodes in "${@}"
+do
+#nedd set SSHPASS environment
+#or run sshpass -p password
+ssh $nodes rm -rf /etc/kubernetes/ssl
+sshpass -e ssh-copy-id $nodes
+ssh $nodes mkdir -p $ssl_prod
+ssh $nodes mkdir /var/lib/kube-proxy
+ssh $nodes mkdir /var/lib/kubelet
+ssh $nodes yum -y install docker
+ssh $nodes "swapoff -a"
+scp $ssl_prod/*.* $nodes:$ssl_prod
+scp docker.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
+scp $soft_location/flanneld $nodes:/usr/local/bin/
+scp $soft_location/mk-docker-opts.sh $nodes:/usr/local/bin
+ssh $nodes sed -i s/192.168.0.4/$nodes/g /usr/lib/systemd/system/kubelet.service 
+ssh $nodes sed -i s/192.168.0.4/$nodes/g /usr/lib/systemd/system/kube-proxy.service 
+scp $soft_location/kubernetes/node/bin/* $nodes:/usr/local/bin
+scp daemon.json $nodes:/etc/docker
+shift
+for services in "kubelet.service kube-proxy.service flanneld.service docker"
+do
+ssh $nodes systemctl daemon-reload
+ssh $nodes systemctl enable $services
+ssh $nodes systemctl start $services
+done
+done
+fi
