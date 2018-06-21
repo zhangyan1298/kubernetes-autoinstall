@@ -17,6 +17,8 @@ promiscuous-bridge \
 --allow-privileged=true \
 --serialize-image-pulls=false \
 --logtostderr=true \
+--runtime-cgroups=/lib/systemd/system/kubelet.service \
+--kubelet-cgroups=/lib/systemd/system/kubelet.service \
 --cluster-dns=10.1.0.1
 Restart=on-failure
 RestartSec=5
