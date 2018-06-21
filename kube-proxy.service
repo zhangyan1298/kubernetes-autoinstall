@@ -6,10 +6,10 @@ After=network.target
 [Service]
 WorkingDirectory=/var/lib/kube-proxy
 ExecStart=/usr/local/bin/kube-proxy \
-  --bind-address=192.168.0.52 \
-  --hostname-override=192.168.0.52 \
+  --bind-address=192.168.0.4 \
+  --hostname-override=192.168.0.4 \
   --cluster-cidr=10.0.0.0/16 \
-  --kubeconfig=/etc/kubernetes/kube-proxy.kubeconfig \
+  --kubeconfig=/etc/kubernetes/ssl/kube-proxy.kubeconfig \
   --logtostderr=true \
   --v=2
 Restart=on-failure
