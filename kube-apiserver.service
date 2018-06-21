@@ -13,7 +13,7 @@ ExecStart=/usr/local/bin/kube-apiserver \
 --runtime-config=rbac.authorization.k8s.io/v1 \
 --authorization-mode=AlwaysAllow \
 --enable-bootstrap-token-auth \
---service-cluster-ip-range=10.0.0.0/16 \
+--service-cluster-ip-range=10.1.0.0/16 \
 --service-node-port-range=3000-9000 \
 --etcd-servers=https://192.168.0.4:2379 \
 --enable-swagger-ui=true \
