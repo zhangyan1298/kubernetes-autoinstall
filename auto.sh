@@ -1,5 +1,4 @@
 
-
 #!/bin/sh
 #Auto Install kubernetes cluster
 #Deployment CA before download cfssl tools
@@ -14,14 +13,15 @@ systemctl stop kubelet
 systemctl stop flanneld
 systemctl stop docker
 rm -rf /var/lib/etcd
-rm -rf /etc/kubernetes/ssl/*
+rm -rf /var/lib/kubelet
+rm -rf /etc/kubernetes/ssl
 ###
 ####
 mkdir /usr/local/soft
 mkdir -p /opt/kubernetes/ssl_source
 mkdir -p /etc/kubernetes/ssl
 mkdir -p /var/lib/etcd
-mkidr -p /var/lib/kubelet
+mkdir -p /var/lib/kubelet
 mkdir -p /var/lib/kube-proxy
 KUBE_APISERVER=https://$1
 soft_location=/usr/local/soft
@@ -30,17 +30,14 @@ ssl_source=/opt/kubernetes/ssl_source
 ssl_prod=/etc/kubernetes/ssl
 get_name="cfssl_linux-amd64 cfssljson_linux-amd64"
 etcd_url=${KUBE_APISERVER}:2379
-
 rm -rf /opt/kubernetes/ssl_source/kubernetes-autoinstall
-
-
-for url_name in ${get_name[$@]}
+rm -rf $soft_location/cfssl*
+for url_name in $get_name[$@]
 do
 wget  https://pkg.cfssl.org/R1.2/${url_name} -P /usr/local/soft || echo "get ${url_name} fail"
 chmod u+x $soft_location/${url_name}
 mv $soft_location/${url_name}  ${bin_location} || "echo mv cfssl tools fail"
 done
-
 cd ${ssl_source}
 yum -y install git sshpass docker && git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
 
@@ -63,11 +60,11 @@ tar xzvf $soft_location/flannel-v0.10.0-linux-amd64.tar.gz -C $soft_location
 tar xzvf $soft_location/kubernetes-server.tar.gz -C $soft_location
 tar xzvf $soft_location/kubernetes-node*.tar.gz -C $soft_location
 
-cp $soft_location/etcd-v3.2.18-linux-amd64/{etcd,etcdctl} /usr/local/bin/
+cp $soft_location/etcd-v3.2.18-linux-amd64/{etcd,etcdctl} /usr/local/sbin/
 cp $soft_location/flanneld /usr/local/bin/
 cp $soft_location/mk-docker-opts.sh /usr/local/bin
-cp $soft_location/kubernetes/node/bin/* /usr/local/bin/
-cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/bin
+cp $soft_location/kubernetes/node/bin/* /usr/local/sbin/
+cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/sbin
 
 
 #########################
@@ -107,8 +104,6 @@ systemctl start docker
 systemctl start kube-controller-manager
 ########################start kube-scheduler
 systemctl start kube-scheduler
-########################start kubelet
-systemctl start kubelet
 ########################start kube-proxy
 systemctl start kube-proxy
 #################################################
@@ -123,14 +118,20 @@ for nodes in "${@}"
 do
 #nedd set SSHPASS environment
 #or run sshpass -p password
-ssh $nodes rm -rf /etc/kubernetes/ssl
 sshpass -e ssh-copy-id $nodes
+ssh $nodes systemctl stop kube-proxy
+ssh $nodes systemctl stop flanneld
+ssh $nodes systemctl stop docker
+ssh $nodes systemctl stop kubelet
+
+ssh $nodes rm -rf /var/lib/kubelet
+ssh $nodes rm -rf /etc/kubernetes/ssl
 ssh $nodes mkdir -p $ssl_prod
 ssh $nodes mkdir /var/lib/kube-proxy
 ssh $nodes mkdir /var/lib/kubelet
 ssh $nodes yum -y install docker
 ssh $nodes "swapoff -a"
-scp $ssl_prod/*.* $nodes:$ssl_prod
+scp $ssl_prod/* $nodes:$ssl_prod
 scp docker.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
 scp $soft_location/flanneld $nodes:/usr/local/bin/
 scp $soft_location/mk-docker-opts.sh $nodes:/usr/local/bin
@@ -147,5 +148,5 @@ ssh $nodes systemctl start $services
 done
 done
 fi
-#######etcd cluster deployment to node##########
-
+#start local kubelet service. after scp keys to nodes run.
+systemctl start kubelet
