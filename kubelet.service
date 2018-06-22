@@ -19,7 +19,7 @@ promiscuous-bridge \
 --logtostderr=true \
 --runtime-cgroups=/lib/systemd/system/kubelet.service \
 --kubelet-cgroups=/lib/systemd/system/kubelet.service \
---cluster-dns=10.1.0.1
+--cluster-dns=10.1.0.2
 Restart=on-failure
 RestartSec=5
 [Install]
