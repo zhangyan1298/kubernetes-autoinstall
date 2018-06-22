@@ -17,3 +17,16 @@ rm -rf /var/lib/etcd
 发现${get_name[$@]}
 与$get_name[$@]
 是有区别的。
+
+####
+Jun 22 03:23:56 k8s-node kubelet: E0622 03:23:56.533527    1848 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/config/apiserver.go:47: Failed to list *v1.Pod: Get https://192.168.0.4/api/v1/pods?fieldSelector=spec.nodeName%3D192.168.0.5&limit=500&resourceVersion=0: x509: certificate signed by unknown authority (possibly because of "crypto/rsa: verification error" while trying to verify candidate authority certificate "tticar ca")
+nodes kubelet 运行报错
+
+检查发现
+
+openssl x509  -noout -text -in /etc/kubernetes/ssl/kubelet.crt
+此行为
+ Subject: CN=192.168.0.4@1529635917
+是另一个kubelet节点的信息。
+那么原因是脚本在copy keys时候 另外节点已经启动了kubelet服务，已生成了kubelet.crt 导致拷贝到节点上，节点的kubelet启动失败
+。
