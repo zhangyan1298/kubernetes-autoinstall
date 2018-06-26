@@ -1,4 +1,10 @@
 ###etcd cluster node follow statment https://skyao.gitbooks.io/learning-etcd3/content/documentation/op-guide/runtime-configuration.html
+
+##添加新成员
+etcdctl --ca-file=/etc/kubernetes/ssl/ca.pem  member add etcd2 https://192.168.0.5:2380
+##将生成的变量替换下面的配置文件
+##启动etcd
+#注意--name 名称不同，和下面的--initial-cluster 参数
 [Unit]
 Description=Etcd Sserver
 After=network.target
@@ -23,7 +29,7 @@ ExecStart=/usr/local/bin/etcd \
   --advertise-client-urls https://192.168.0.5:2379 \
   --initial-cluster-token 192.168.0.5-cluster-0 \
   --initial-cluster etcd1=https://192.168.0.4:2380,etcd2=https://192.168.0.5:2380 \
-  --initial-cluster-state new \
+  --initial-cluster-state existing \
   --data-dir=/var/lib/etcd
 Restart=on-failure
 RestartSec=5
