@@ -144,8 +144,8 @@ scp $ssl_prod/* $nodes:$ssl_prod
 scp docker.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
 scp $soft_location/flanneld $nodes:/usr/local/bin/
 scp $soft_location/mk-docker-opts.sh $nodes:/usr/local/bin
-ssh $nodes sed -i s/$1/$nodes/g /usr/lib/systemd/system/kubelet.service 
-ssh $nodes sed -i s/$1/$nodes/g /usr/lib/systemd/system/kube-proxy.service 
+ssh $nodes sed -i s/${KUBE_APISERVER##https://}/$nodes/g /usr/lib/systemd/system/kubelet.service 
+ssh $nodes sed -i s/${KUBE_APISERVER##https://}/$nodes/g /usr/lib/systemd/system/kube-proxy.service 
 scp $soft_location/kubernetes/node/bin/* $nodes:/usr/local/bin
 scp daemon.json $nodes:/etc/docker
 shift
