@@ -43,9 +43,11 @@ yum -y install git sshpass docker && git init && git clone https://github.com/zh
 
 if [ -d  "kubernetes-autoinstall" ]
 then
+
+
+cd kubernetes-autoinstall
 ####替换原始masterIP及配置文件内的nodeIP
 sed -i s/192.168.0.4/$1/g *
-cd kubernetes-autoinstall
 cfssl_linux-amd64 gencert -initca ca-csr.json | cfssljson_linux-amd64 -bare ca
 cfssl_linux-amd64 gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server server-csr.json | cfssljson_linux-amd64 -bare server
 cfssl_linux-amd64 gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server admin-csr.json | cfssljson_linux-amd64 -bare admin
