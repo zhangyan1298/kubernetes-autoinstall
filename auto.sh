@@ -32,7 +32,7 @@ get_name="cfssl_linux-amd64 cfssljson_linux-amd64"
 etcd_url=${KUBE_APISERVER}:2379
 rm -rf /opt/kubernetes/ssl_source/kubernetes-autoinstall
 rm -rf $soft_location/cfssl*
-for url_name in $get_name[$@]
+for url_name in ${get_name}
 do
 wget  https://pkg.cfssl.org/R1.2/${url_name} -P /usr/local/soft || echo "get ${url_name} fail"
 chmod u+x $soft_location/${url_name}
