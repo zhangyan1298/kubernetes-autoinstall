@@ -54,7 +54,7 @@ cfssl_linux-amd64 gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -
 cfssl_linux-amd64 gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server kube-proxy-csr.json | cfssljson_linux-amd64 -bare kube-proxy
 cfssl_linux-amd64 gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server flanneld-csr.json | cfssljson_linux-amd64 -bare flanneld
 mv *.{key,pem,csr}  $ssl_prod
-openssl x509  -noout -text -in /opt/ssl/server.pem
+openssl x509  -noout -text -in $ssl_prod/server.pem
 fi
 
 
