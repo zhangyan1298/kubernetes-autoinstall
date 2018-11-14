@@ -17,7 +17,7 @@ rm -rf /var/lib/etcd
 发现${get_name[$@]}
 与$get_name[$@]
 是有区别的。
-这里直接用变量名即可，上门的修复忽略！
+这里直接用变量名即可，上面的修复忽略！
 ####
 Jun 22 03:23:56 k8s-node kubelet: E0622 03:23:56.533527    1848 reflector.go:205] k8s.io/kubernetes/pkg/kubelet/config/apiserver.go:47: Failed to list *v1.Pod: Get https://192.168.0.4/api/v1/pods?fieldSelector=spec.nodeName%3D192.168.0.5&limit=500&resourceVersion=0: x509: certificate signed by unknown authority (possibly because of "crypto/rsa: verification error" while trying to verify candidate authority certificate "tticar ca")
 nodes kubelet 运行报错
