@@ -1,5 +1,6 @@
 
 #!/bin/sh
+set -e
 #Auto Install kubernetes cluster
 #Deployment CA before download cfssl tools
 
@@ -24,7 +25,9 @@ mkdir -p /var/lib/etcd
 mkdir -p /var/lib/kubelet
 mkdir -p /var/lib/kube-proxy
 KUBE_APISERVER=https://$1
-soft_location=/usr/local/soft
+etcd_ver=v3.3.12
+flannel_ver=v0.11.0
+soft_location=/opt/ball
 bin_location=/usr/bin
 ssl_source=/opt/kubernetes/ssl_source
 ssl_prod=/etc/kubernetes/ssl
@@ -64,10 +67,10 @@ fi
 
 
 #install etcd server
-tar xzvf $soft_location/etcd-v3.2.18-linux-amd64.tar.gz -C $soft_location
-tar xzvf $soft_location/flannel-v0.10.0-linux-amd64.tar.gz -C $soft_location
-tar xzvf $soft_location/kubernetes-server.tar.gz -C $soft_location
-tar xzvf $soft_location/kubernetes-node*.tar.gz -C $soft_location
+tar xzvf $soft_location/etcd-{etcd_ver}-linux-amd64.tar.gz -C $soft_location
+tar xzvf $soft_location/flannel-{flannel_ver}-linux-amd64.tar.gz -C $soft_location
+tar xzvf $soft_location/kubernetes-server-linux-amd64.tar.gz -C $soft_location
+tar xzvf $soft_location/kubernetes-node-linux-amd64.tar.gz -C $soft_location
 
 cp $soft_location/etcd-v3.2.18-linux-amd64/{etcd,etcdctl} /usr/local/sbin/
 cp $soft_location/flanneld /usr/local/bin/
@@ -127,7 +130,7 @@ for nodes in "${@}"
 do
 #nedd set SSHPASS environment
 #or run sshpass -p password
-sshpass -e ssh-copy-id $nodes
+#sshpass -e ssh-copy-id $nodes
 ssh $nodes systemctl stop kube-proxy
 ssh $nodes systemctl stop flanneld
 ssh $nodes systemctl stop docker
