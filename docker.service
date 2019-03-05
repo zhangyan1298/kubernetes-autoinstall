@@ -16,14 +16,13 @@ EnvironmentFile=-/etc/sysconfig/docker-storage
 Environment=GOTRACEBACK=crash
 Environment=DOCKER_HTTP_HOST_COMPAT=1
 Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin
-ExecStart=/usr/bin/dockerd-current \
+ExecStart=/usr/bin/dockerd-ce \
           -H tcp://0.0.0.0:2375 \
           -H unix:///var/run/docker.sock \
           --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current \
           --default-runtime=docker-runc \
           --exec-opt native.cgroupdriver=cgroupfs \
           --userland-proxy-path=/usr/libexec/docker/docker-proxy-current \
-          --seccomp-profile=/etc/docker/seccomp.json \
           $OPTIONS \
           $DOCKER_STORAGE_OPTIONS \
           $DOCKER_NETWORK_OPTIONS \
