@@ -80,6 +80,7 @@ cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-con
 
 
 #########################
+pwd
 cp *.service /usr/lib/systemd/system/
 cp token.csv /etc/kubernetes
 cp daemon.json /etc/docker
