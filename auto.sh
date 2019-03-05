@@ -77,7 +77,7 @@ cp $soft_location/etcd-${etcd_ver}-linux-amd64/{etcd,etcdctl} /usr/local/bin/
 cp $soft_location/flanneld /usr/local/bin/
 cp $soft_location/mk-docker-opts.sh /usr/local/bin
 cp $soft_location/kubernetes/node/bin/* /usr/local/bin/
-cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/sbin
+cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/bin
 
 
 #########################
