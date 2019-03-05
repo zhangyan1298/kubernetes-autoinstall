@@ -37,7 +37,7 @@ rm -rf /opt/kubernetes/ssl_source/kubernetes-autoinstall
 rm -rf $soft_location/cfssl*
 for url_name in ${get_name}
 do
-wget  https://pkg.cfssl.org/R1.2/${url_name} -P /usr/local/soft || echo "get ${url_name} fail"
+wget  https://pkg.cfssl.org/R1.2/${url_name} -P ${soft_location} || echo "get ${url_name} fail"
 chmod u+x $soft_location/${url_name}
 mv $soft_location/${url_name}  ${bin_location} || "echo mv cfssl tools fail"
 done
@@ -72,7 +72,7 @@ tar xzvf $soft_location/flannel-${flannel_ver}-linux-amd64.tar.gz -C $soft_locat
 tar xzvf $soft_location/kubernetes-server-linux-amd64.tar.gz -C $soft_location
 tar xzvf $soft_location/kubernetes-node-linux-amd64.tar.gz -C $soft_location
 
-cp $soft_location/etcd-v3.2.18-linux-amd64/{etcd,etcdctl} /usr/local/sbin/
+cp $soft_location/etcd-${etcd_ver}-linux-amd64/{etcd,etcdctl} /usr/local/sbin/
 cp $soft_location/flanneld /usr/local/bin/
 cp $soft_location/mk-docker-opts.sh /usr/local/bin
 cp $soft_location/kubernetes/node/bin/* /usr/local/sbin/
