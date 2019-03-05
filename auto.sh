@@ -42,7 +42,8 @@ chmod u+x $soft_location/${url_name}
 mv $soft_location/${url_name}  ${bin_location} || "echo mv cfssl tools fail"
 done
 cd ${ssl_source}
-yum -y install git sshpass docker && git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
+yum -y install git sshpass docker-ce
+git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
 if [ -n netstat -tnlp |grep :443 ]
 then
 echo "443 port is use: please check!"
