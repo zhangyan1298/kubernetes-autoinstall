@@ -34,4 +34,12 @@ openssl x509  -noout -text -in /etc/kubernetes/ssl/kubelet.crt
 1.server-csr 证书需要包括使用到的节点IP，或主机名包括在其中
 2.使用方法auth.sh xxip xxip 
 $1 为master 后续的都是node节点
+
+#20190305
+uddate
+增加变量位置
+二进制文件路径更改到/usr/local/bin
+修改server-config.json 增加此次部署得ip
+docker.services 去除--seccomp-profile 及after wants 配置，因为系统与软件版本不对应
+
 。
