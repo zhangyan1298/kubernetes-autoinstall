@@ -123,7 +123,8 @@ systemctl start kube-proxy
 #################################################
 
 #COPY bootstrap file to node 
-ssh-keygen  -t rsa -P "" -f ~/.ssh/id_rsa
+#已经打通了ssh下面这里就不需要重新生成了
+#ssh-keygen  -t rsa -P "" -f ~/.ssh/id_rsa
 if [ $# -gt 1 ]
 then
 #shift $1,because $1 is apiserver
