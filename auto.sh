@@ -1,6 +1,6 @@
 
 #!/bin/sh
-set -e
+#set -e
 #Auto Install kubernetes cluster
 #Deployment CA before download cfssl tools
 
@@ -67,8 +67,8 @@ fi
 
 
 #install etcd server
-tar xzvf $soft_location/etcd-{etcd_ver}-linux-amd64.tar.gz -C $soft_location
-tar xzvf $soft_location/flannel-{flannel_ver}-linux-amd64.tar.gz -C $soft_location
+tar xzvf $soft_location/etcd-${etcd_ver}-linux-amd64.tar.gz -C $soft_location
+tar xzvf $soft_location/flannel-${flannel_ver}-linux-amd64.tar.gz -C $soft_location
 tar xzvf $soft_location/kubernetes-server-linux-amd64.tar.gz -C $soft_location
 tar xzvf $soft_location/kubernetes-node-linux-amd64.tar.gz -C $soft_location
 
