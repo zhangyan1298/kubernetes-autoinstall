@@ -36,10 +36,11 @@ openssl x509  -noout -text -in /etc/kubernetes/ssl/kubelet.crt
 $1 为master 后续的都是node节点
 
 #20190305
-uddate
+update
 增加变量位置
 二进制文件路径更改到/usr/local/bin
 修改server-config.json 增加此次部署得ip
+修改安装docker-ce 得版本为docker-ce-18.06.1.ce
 docker.services 去除--seccomp-profile 及after wants 配置，因为系统与软件版本不对应
 
 。
