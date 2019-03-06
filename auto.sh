@@ -25,7 +25,7 @@ mkdir -p /var/lib/etcd
 mkdir -p /var/lib/kubelet
 mkdir -p /var/lib/kube-proxy
 KUBE_APISERVER=https://$1
-etcd_ver=v3.3.12
+etcd_ver=v3.2.24
 flannel_ver=v0.11.0
 soft_location=/opt/ball
 bin_location=/usr/bin
