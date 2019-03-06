@@ -42,5 +42,9 @@ update
 修改server-config.json 增加此次部署得ip
 修改安装docker-ce 得版本为docker-ce-18.06.1.ce
 docker.services 去除--seccomp-profile 及after wants 配置，因为系统与软件版本不对应
+#20190306
+update
+docker-ce-18.06.1 服务启动文件为dockerd 与 release不同得是docker-current 
+还有docker-ce-.18.09.x 启动文件为docker-ce
 
 。
