@@ -16,11 +16,7 @@ EnvironmentFile=-/etc/sysconfig/docker-storage
 Environment=GOTRACEBACK=crash
 Environment=DOCKER_HTTP_HOST_COMPAT=1
 Environment=PATH=/usr/libexec/docker:/usr/bin:/usr/sbin
-ExecStart=/usr/bin/dockerd-ce \
-          -H tcp://0.0.0.0:2375 \
-          -H unix:///var/run/docker.sock \         
-          --default-runtime=runc \
-          --exec-opt native.cgroupdriver=cgroupfs \
+ExecStart=/usr/bin/dockerd \
           $OPTIONS \
           $DOCKER_STORAGE_OPTIONS \
           $DOCKER_NETWORK_OPTIONS \
