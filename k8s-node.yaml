@@ -1,0 +1,60 @@
+---
+- hosts: all
+  vars:
+#bug 18.09.0-3 for k8s version v1.13.0 
+#自Kubernetes 1.12以来，经验证的docker版本列表保持不变，分别为1.11.1,1.12.2,1.13.1,17.03,17.06,17.09,18.06
+#https://github.com/kubernetes/kubernetes/blob/2ea50003797952e599ae24cd58e6e9f98caa4d5a/CHANGELOG-1.13.md#external-dependencies
+#    docker_ce_version: 18.09.0-3.el7
+    docker_ce_version: 18.06.1.ce
+    docker_ce_repo: https://download.docker.com/linux/centos/docker-ce.repo
+    service_conf_dir: /usr/lib/systemd/system
+    env_dir: /etc/sysconfig
+    bin_dir: /usr/local/bin/
+    etcd_download_url: https://github.com/etcd-io/etcd/releases/download/
+#    etcd_version: v3.3.12
+#经过验证得版本v3.2.24
+    etcd_version: v3.2.24
+    k8s_version: v1.13.0
+    cfssl_ver: R1.2
+    down_dir: /opt/ball/
+    flannel_ver: v0.11.0
+  remote_user: root
+  tasks:
+  - name: swapoff system swap memory
+    shell: swapoff -a;sed -i /swap/d /etc/fstab
+  - name: install docker depnedes package
+    shell: yum -y install yum-utils lvm2 device-mapper-persistent-data
+  - name: configure docker-ce repo
+    shell: yum-config-manager --add-repo {{ docker_ce_repo }}
+  - name: ensure docker-ce is at the lastest version
+    yum: pkg=docker-ce-{{ docker_ce_version }} state=present
+  - name: create download directory
+    file:  dest=/opt/ball state=directory
+#  - name: template backup
+#    template: src=k8s-node.yaml dest=/tmp backup=yes
+  - name: download etcd k8s binary
+    when: ansible_hostname == "centos-s-2vcpu-4gb-nyc1-01"
+    get_url: url={{ item }} dest={{ down_dir }}
+    with_items:
+       - https://github.com/etcd-io/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-amd64.tar.gz
+       - https://dl.k8s.io/{{ k8s_version }}/kubernetes-client-linux-amd64.tar.gz
+       - https://dl.k8s.io/{{ k8s_version }}/kubernetes-server-linux-amd64.tar.gz
+       - https://pkg.cfssl.org/{{ cfssl_ver }}/cfssl_linux-amd64
+       - https://pkg.cfssl.org/{{ cfssl_ver }}/cfssljson_linux-amd64
+       - https://dl.k8s.io/{{ k8s_version }}/kubernetes-node-linux-amd64.tar.gz
+       - https://github.com/coreos/flannel/releases/download/{{ flannel_ver }}/flannel-{{ flannel_ver }}-linux-amd64.tar.gz
+  - name: copy 
+    when: ansible_hostname == "centos-s-2vcpu-4gb-nyc1-01"
+    copy: src={{ down_dir }}{{ item }} dest={{ bin_dir }}{{ item }} mode=655
+    with_items:
+       - cfssl_linux-amd64
+       - cfssljson_linux-amd64
+  - name: git clone 
+    when: ansible_hostname == "centos-s-2vcpu-4gb-nyc1-01"
+    vars:
+      repo_url: https://github.com/zhangyan1298/kubernetes-autoinstall.git
+      dest_path: /opt/k8s-auto
+    git: repo={{ repo_url }} dest={{ dest_path }} accept_hostkey=yes
+    
+
+
