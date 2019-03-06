@@ -46,10 +46,10 @@ docker.services 去除--seccomp-profile 及after wants 配置，因为系统与�
 update
 docker-ce-18.06.1 服务启动文件为dockerd 与 release不同得是docker-current 
 还有docker-ce-.18.09.x 启动文件为docker-ce
-
+#20190306
 update:
 环境：配置好ansible ssh打通
 执行ansible -v k8s-node.yaml 下载所有安装包
-在控制主机上执行auto.sh apiserver node node ---
+在控制主机上执行auto.sh apiserver node node 
 
 。
