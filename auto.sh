@@ -73,11 +73,11 @@ tar xzvf $soft_location/flannel-${flannel_ver}-linux-amd64.tar.gz -C $soft_locat
 tar xzvf $soft_location/kubernetes-server-linux-amd64.tar.gz -C $soft_location
 tar xzvf $soft_location/kubernetes-node-linux-amd64.tar.gz -C $soft_location
 
-cp $soft_location/etcd-${etcd_ver}-linux-amd64/{etcd,etcdctl} /usr/local/bin/
-cp $soft_location/flanneld /usr/local/bin/
-cp $soft_location/mk-docker-opts.sh /usr/local/bin
-cp $soft_location/kubernetes/node/bin/* /usr/local/bin/
-cp $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/bin
+cp -f $soft_location/etcd-${etcd_ver}-linux-amd64/{etcd,etcdctl} /usr/local/bin/
+cp -f $soft_location/flanneld /usr/local/bin/
+cp -f $soft_location/mk-docker-opts.sh /usr/local/bin
+cp -f $soft_location/kubernetes/node/bin/* /usr/local/bin/
+cp -f $soft_location/kubernetes/server/bin/{kubelet,kubectl,kube-apiserver,kube-controller-manager,kube-scheduler} /usr/local/bin
 
 
 #########################
