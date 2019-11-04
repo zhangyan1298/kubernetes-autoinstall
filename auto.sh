@@ -24,6 +24,7 @@ mkdir -p /etc/kubernetes/ssl
 mkdir -p /var/lib/etcd
 mkdir -p /var/lib/kubelet
 mkdir -p /var/lib/kube-proxy
+mkdir /etc/docker
 KUBE_APISERVER=https://$1
 etcd_ver=v3.2.24
 flannel_ver=v0.11.0
@@ -45,7 +46,7 @@ cd ${ssl_source}
 yum -y install git sshpass 
 # 排除docker-ce-18.06.1.ce
 git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
-if [ -n netstat -tnlp |grep :443 ]
+if [ -n netstat -tnlp |grep ":443" ]
 then
 echo "443 port is use: please check!"
 fi
