@@ -24,6 +24,7 @@ mkdir -p /etc/kubernetes/ssl
 mkdir -p /var/lib/etcd
 mkdir -p /var/lib/kubelet
 mkdir -p /var/lib/kube-proxy
+#新增daemon.json 保存文件夹
 mkdir /etc/docker
 KUBE_APISERVER=https://$1
 etcd_ver=v3.2.24
