@@ -147,7 +147,8 @@ ssh $nodes rm -rf /etc/kubernetes/ssl
 ssh $nodes mkdir -p $ssl_prod
 ssh $nodes mkdir /var/lib/kube-proxy
 ssh $nodes mkdir /var/lib/kubelet
-ssh $nodes yum -y install docker-ce-18.06.1.ce
+#docker 通过ansible yaml 统一安装
+#ssh $nodes yum -y install docker-ce-18.06.1.ce
 ssh $nodes "swapoff -a"
 scp $ssl_prod/* $nodes:$ssl_prod
 scp docker.service kubelet.service kube-proxy.service flanneld.service $nodes:/usr/lib/systemd/system/
