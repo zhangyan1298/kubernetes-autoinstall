@@ -5,7 +5,8 @@
 #自Kubernetes 1.12以来，经验证的docker版本列表保持不变，分别为1.11.1,1.12.2,1.13.1,17.03,17.06,17.09,18.06
 #https://github.com/kubernetes/kubernetes/blob/2ea50003797952e599ae24cd58e6e9f98caa4d5a/CHANGELOG-1.13.md#external-dependencies
 #    docker_ce_version: 18.09.0-3.el7
-    docker_ce_version: 18.06.1.ce
+#    docker_ce_version: 18.06.1.ce
+    docker_ce_version: 19.03.3
     docker_ce_repo: https://download.docker.com/linux/centos/docker-ce.repo
     service_conf_dir: /usr/lib/systemd/system
     env_dir: /etc/sysconfig
@@ -14,7 +15,8 @@
 #    etcd_version: v3.3.12
 #经过验证得版本v3.2.24
     etcd_version: v3.2.24
-    k8s_version: v1.13.0
+    k8s_version: v1.14.8
+    #k8s_version: v1.13.0
     cfssl_ver: R1.2
     down_dir: /opt/ball/
     flannel_ver: v0.11.0
