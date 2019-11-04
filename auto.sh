@@ -42,7 +42,8 @@ chmod u+x $soft_location/${url_name}
 mv $soft_location/${url_name}  ${bin_location} || "echo mv cfssl tools fail"
 done
 cd ${ssl_source}
-yum -y install git sshpass docker-ce-18.06.1.ce
+yum -y install git sshpass 
+# 排除docker-ce-18.06.1.ce
 git init && git clone https://github.com/zhangyan1298/kubernetes-autoinstall.git
 if [ -n netstat -tnlp |grep :443 ]
 then
