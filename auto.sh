@@ -105,6 +105,7 @@ systemctl start kube-apiserver
 #####开放master etcd 服务#####
 #####flanneld 服务调用########
 firewall-cmd --add-port=2379/tcp --permanent
+firewall-cmd --add-port=443/tcp --permanent
 firewall-cmd --reload
 
 ##call out sub-shell
