@@ -4,14 +4,14 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=network.target
 [Service]
 ExecStart=/usr/local/bin/kube-apiserver \
---admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction \
+--admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota,NodeRestriction,MutatingAdmissionWebhook \
 --advertise-address=192.168.0.4 \
 --bind-address=192.168.0.4 \
 --insecure-bind-address=0.0.0.0 \
 --secure-port=443 \
 --kubelet-https=true \
 --runtime-config=rbac.authorization.k8s.io/v1 \
---authorization-mode=AlwaysAllow \
+--authorization-mode=AlwaysAllow,RBAC \
 --enable-bootstrap-token-auth \
 --service-cluster-ip-range=10.1.0.0/16 \
 --service-node-port-range=3000-9000 \
